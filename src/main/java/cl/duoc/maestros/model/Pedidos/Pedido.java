@@ -9,6 +9,8 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 
 @Data 
 @AllArgsConstructor 
@@ -16,7 +18,8 @@ import lombok.NoArgsConstructor;
 @Entity 
 @Table(name = "PEDIDO")
 public class Pedido {
-    @Id 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
 
