@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import cl.duoc.maestros.dto.PedidoDetalleResponse;
 import cl.duoc.maestros.model.Pedidos.Pedido;
 import cl.duoc.maestros.service.Pedidos.PedidoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,6 +39,12 @@ public class PedidoController {
     @GetMapping
     public List<Pedido> listar() {
         return service.obtenerTodos();
+    }
+
+    @Operation(summary = "Mis pedidos: los pedidos del cliente con sesión iniciada y los productos que compró")
+    @GetMapping("/mis-pedidos")
+    public List<PedidoDetalleResponse> misPedidos(Authentication authentication) {
+        return service.obtenerPorCliente(Long.valueOf(authentication.getName()));
     }
 
     @Operation(summary = "Buscar por id")

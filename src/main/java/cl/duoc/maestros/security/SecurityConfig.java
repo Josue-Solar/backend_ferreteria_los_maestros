@@ -29,13 +29,19 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/error").permitAll()
                 // publico: login y documentacion Swagger
-                .requestMatchers("/api/auth/login", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
+                .requestMatchers("/api/auth/login", "/api/auth/registro", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
                 // catalogo de productos visible sin iniciar sesion
                 .requestMatchers(HttpMethod.GET, "/api/productos/**").permitAll()
+                // modo invitado: catalogo de solo lectura sin iniciar sesion
+                .requestMatchers(HttpMethod.GET, "/api/invitado/**").permitAll()
                 // crear, editar y eliminar productos: solo ADMIN
                 .requestMatchers("/api/productos/**").hasRole("ADMIN")
                 // gestion de clientes: solo ADMIN
                 .requestMatchers("/api/clientes/**").hasRole("ADMIN")
+                // gestion de usuarios: solo ADMIN
+                .requestMatchers("/api/usuarios/**").hasRole("ADMIN")
+                // los pedidos y productos comprados del propio cliente
+                .requestMatchers("/api/pedidos/mis-pedidos").hasRole("CLIENTE")
                 // pedidos: cualquier usuario autenticado
                 .requestMatchers("/api/pedidos/**").authenticated()
                 .anyRequest().authenticated())
